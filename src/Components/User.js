@@ -1,26 +1,14 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
+import { fetchUserss } from '../Redux/userActions';
+import {connect} from 'react-redux';
 
-function User(){
-    // No need because ab ise Redux(Store) se globally available krva diya no need locally "states" bnane ki
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState('');
-    const [users, setUsers] = useState([]);
+function User({loading, error, users, fetchUsers}){
+// No need to declare "states" locally[in Component] because Redux(Store) se globally available krva di "states"
 
     useEffect(async() => {
-        try{
-            let res = await axios.get("https://jsonplaceholder.typicode.com/users");
-            //console.log(res);
-            let data = res.data;
-            //console.log(data);
-            setUsers(data);
-            setLoading(false);
-        }
-        catch(err){
-            setError(err.message);
-            setLoading(false);
-        }
-    })
+        fetchUsers();
+    }, [])
 
     return(
         <>
@@ -38,4 +26,18 @@ function User(){
     )
 }
 
-export default User;
+const mapStateToProps = (state) => {
+    return{
+        loading : state.user.loading,
+        error : state.user.error,
+        users : state.user.users
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return{
+        fetchUsers : () => dispatch(fetchUserss())
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(User);

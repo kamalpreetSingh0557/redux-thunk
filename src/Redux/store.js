@@ -3,10 +3,8 @@ import batReducer from "./batReducer";
 import {composeWithDevTools} from 'redux-devtools-extension';
 import rootReducer from '../Redux/rootReducer';
 
-// import thunk from 'redux-thunk';
+import thunk from 'redux-thunk';
 
-// const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
-
-const store = createStore(rootReducer, composeWithDevTools());
+const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
 
 export default store;
